@@ -1,4 +1,5 @@
 "use client";
+import { scrapeAndStoreProduct } from "@/lib/actions";
 // We have to add this because we added a function(interactivity) to our form in the client facing side. NextJS likes things to be separated and functionality to be on the server side.
 import { FormEvent, useState } from "react";
 
@@ -25,7 +26,7 @@ const SearchBar = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	// We need to define what type of data event is, hence the FormEvent...
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		const isLinkValid = isValidAmazonProductURL(searchPrompt);
@@ -35,7 +36,8 @@ const SearchBar = () => {
 		try {
 			setIsLoading(true);
 
-			// Scrape the website
+			// Scrape the website's product page
+			const product = await scrapeAndStoreProduct(searchPrompt);
 		} catch (error) {
 			console.log(error);
 		} finally {
