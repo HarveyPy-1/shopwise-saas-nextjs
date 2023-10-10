@@ -58,24 +58,18 @@ export async function scrapeAmazonProduct(url: string) {
 
 		const discountRate = $(".savingsPercentage").text().replace(/[-%]/g, "");
 
-		// const description = extractDescription($('.a-unordered-list .a-list item'))
+		const description = extractDescription($);
 
-		// description.for((eachDescription: any) => {
-		//     const descriptionText = $(eachDescription).text()
-		//     console.log({descriptionText});
-
-		// })
-
-		console.log({
-			title,
-			currentPrice,
-			currentPricePennies,
-			originalPrice,
-			outOfStock,
-			imageUrls,
-			currency,
-			discountRate,
-		});
+		// console.log({
+		// 	title,
+		// 	currentPrice,
+		// 	currentPricePennies,
+		// 	originalPrice,
+		// 	outOfStock,
+		// 	imageUrls,
+		// 	currency,
+		// 	discountRate,
+		// });
 
 		// Construct data object with scraped data
 		const data = {
@@ -83,16 +77,23 @@ export async function scrapeAmazonProduct(url: string) {
 			currency: currency || "$",
 			image: imageUrls[0],
 			title,
-			currentPrice: Number(currentPrice),
-			originalPrice: Number(originalPrice),
-			currentPricePennies: currentPricePennies,
+			currentPrice: parseInt(currentPrice) || Number(originalPrice),
+			originalPrice: Number(originalPrice) || parseInt(currentPrice),
+			currentPricePennies: Number(currentPricePennies.slice(0, 2)),
 			priceHistory: [],
 			discountRate: Number(discountRate),
 			isOutOfStock: outOfStock,
 			category: "get_category",
 			reviewCount: "get_review_count",
 			stars: "get_stars",
+			description,
+			lowestPrice: parseInt(currentPrice) || Number(originalPrice),
+			highestPrice: Number(originalPrice) || parseInt(currentPrice),
+			averagePrice: parseInt(currentPrice) || Number(originalPrice),
 		};
+
+		// console.log(data);
+		return data;
 	} catch (error: any) {
 		throw new Error(`Failed to scrape product: ${error.message}`);
 	}
