@@ -2,8 +2,17 @@ import Product from "@/lib/model/product.model";
 import { connectToDB } from "@/lib/mongoose";
 import { generateEmailBody, sendEmail } from "@/lib/nodemailer";
 import { scrapeAmazonProduct } from "@/lib/scraper";
-import { getAveragePrice, getEmailNotifType, getHighestPrice, getLowestPrice } from "@/lib/utils";
+import {
+	getAveragePrice,
+	getEmailNotifType,
+	getHighestPrice,
+	getLowestPrice,
+} from "@/lib/utils";
 import { NextResponse } from "next/server";
+
+export const maxDuration = 300;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
 	try {
@@ -35,33 +44,34 @@ export async function GET() {
 
 				// If product does not exist, create a new one
 				const updatedProduct = await Product.findOneAndUpdate(
-					{ url: scrapedProduct.url },
+					{ url: product.url },
 					product
 				);
 
-                // Check each product's status and send appropriate email
-                const emailNotifType = getEmailNotifType(scrapedProduct, currentProduct)
+				// Check each product's status and send appropriate email
+				const emailNotifType = getEmailNotifType(scrapedProduct, currentProduct);
 
-                if(emailNotifType && updatedProduct.users.length > 0) {
-                    const productInfo = {
-                        title: updatedProduct.title,
-                        url: updatedProduct.url,
-                    }
+				if (emailNotifType && updatedProduct.users.length > 0) {
+					const productInfo = {
+						title: updatedProduct.title,
+						url: updatedProduct.url,
+					};
 
-                    const emailContent = await generateEmailBody(productInfo, emailNotifType)
+					const emailContent = await generateEmailBody(productInfo, emailNotifType);
 
-                    const userEmails = updatedProduct.users.map((user: any) => user.email)
+					const userEmails = updatedProduct.users.map((user: any) => user.email);
 
-                    await sendEmail(emailContent, userEmails)
-                }
+					await sendEmail(emailContent, userEmails);
+				}
 
-                return updatedProduct
+				return updatedProduct;
 			})
 		);
 
-        return NextResponse.json({
-            message: 'OK', data: updatedProducts
-        })
+		return NextResponse.json({
+			message: "OK",
+			data: updatedProducts,
+		});
 	} catch (error) {
 		throw new Error(`Error in GET: ${error}`);
 	}
