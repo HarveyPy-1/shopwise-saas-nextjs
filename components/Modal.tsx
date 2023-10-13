@@ -3,21 +3,28 @@
 import { FormEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
+import { addUserEmailToTrackedProduct } from "@/lib/actions";
 
-const Modal = () => {
+interface Props {
+	productID: string;
+}
+
+const Modal = ({ productID }: Props) => {
 	let [isOpen, setIsOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [email, setEmail] = useState("")
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [email, setEmail] = useState("");
 
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true)
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setIsSubmitting(true);
 
-    // Assign user email to tracked product
-    setIsSubmitting(false)
-    setEmail('')
-    closeModal()
-  }
+		// Assign user email to tracked product
+		await addUserEmailToTrackedProduct(productID, email);
+
+		setIsSubmitting(false);
+		setEmail("");
+		closeModal();
+	};
 
 	const openModal = () => setIsOpen(true);
 
@@ -92,15 +99,15 @@ const Modal = () => {
 											required
 											type="email"
 											id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+											value={email}
+											onChange={(e) => setEmail(e.target.value)}
 											placeholder="Enter your email address"
 											className="dialog-input"
 										/>
 									</div>
 
 									<button type="submit" className="dialog-btn">
-										{isSubmitting ? 'Submitting...' : 'Track'}
+										{isSubmitting ? "Submitting..." : "Track"}
 									</button>
 								</form>
 							</div>
