@@ -10,7 +10,7 @@ import {
 } from "@/lib/utils";
 import { NextResponse } from "next/server";
 
-export const maxDuration = 300;
+export const maxDuration = 10; //Supposed to be 300, had to be 10 for free hosting on vercel
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
