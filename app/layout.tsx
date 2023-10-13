@@ -1,4 +1,4 @@
-import Navbar from "@/components/NavBar";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
@@ -11,7 +11,8 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
 	title: "ShopWise Price Tracker",
-	description: "Save money on your online shopping by tracking prices on your favorite shopping websites and making a purchase when it's at its lowest price.",
+	description:
+		"Save money on your online shopping by tracking prices on your favorite shopping websites and making a purchase when it's at its lowest price.",
 };
 
 export default function RootLayout({
@@ -22,11 +23,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-        <main className="max-w-10xl mx-auto">
-          <Navbar />
-          {children}
-        </main>
-      </body>
+				<main className="max-w-10xl mx-auto">
+					<Navbar />
+					{children}
+				</main>
+			</body>
 		</html>
 	);
 }
