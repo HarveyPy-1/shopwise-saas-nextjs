@@ -12,7 +12,7 @@ const Home = async () => {
 			<section className="px-6 md:px-20 py-24">
 				<div className="flex max-xl:flex-col gap-16">
 					<div className="flex flex-col justify-center">
-						<p className="small-text">
+						<p className="small-text" style={{color: "blue"}}>
 							Smart Shopping Starts Here:
 							<Image
 								src="/assets/icons/arrow-right.svg"
@@ -22,8 +22,8 @@ const Home = async () => {
 							/>
 						</p>
 						<h1 className="head-text">
-							Unleash the Power of{" "}
-							<span className="text-primary">ShopWise</span> PriceTracker
+							Unleash the Power of Deal
+							<span className="text-primary">Hound</span> PriceTracker
 						</h1>
 						<p className="mt-6">
 							Powerful, self-serve product and growth analytics to help you

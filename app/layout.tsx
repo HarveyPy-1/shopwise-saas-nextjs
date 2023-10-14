@@ -10,7 +10,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-	title: "ShopWise Price Tracker",
+	title: "DealHound Price Tracker",
 	description:
 		"Save money on your online shopping by tracking prices on your favorite shopping websites and making a purchase when it's at its lowest price.",
 };
