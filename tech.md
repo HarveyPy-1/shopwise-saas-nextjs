@@ -1,0 +1,1 @@
+Next.JS, BrightData Headful browser, Tailwind CSS, TypeScript, MongoDB
